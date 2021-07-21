@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using Application.Features._ViewModels;
+using Domain.Entities;
+using AutoMapper;
 
 namespace Application.Profiles
 {
@@ -6,6 +8,8 @@ namespace Application.Profiles
     {
         public MappingProfile()
         {
+            // Company
+            CreateMap<Company, CompanyVM>();
         }
     }
 }

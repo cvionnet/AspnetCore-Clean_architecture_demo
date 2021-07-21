@@ -2,6 +2,7 @@
 
 namespace Api.Utility
 {
+    // Used for Swagger
     [AttributeUsage(AttributeTargets.Method)]
     public class FileResultContentTypeAttribute : Attribute
     {

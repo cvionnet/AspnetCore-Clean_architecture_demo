@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace Api.Utility
 {
+    // Used for Swagger
     public class FileResultContentTypeOperationFilter : IOperationFilter
     {
         public void Apply(OpenApiOperation operation, OperationFilterContext context)

@@ -7,24 +7,18 @@ using Identity;
 using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
+using PersistenceDapper;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Api
 {
     public class Startup
     {
         private const string CorsSettings = "Open";     //"AllowAll";
-        private const string SwaggerTitle = "CleanArchiDemo API";
-        private const string SwaggerVersion = "v1";
 
         // To read configuration file "appsettings.json"
         public Startup(IConfiguration configuration)
@@ -37,18 +31,27 @@ namespace Api
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            AddSwagger(services);
+            // Swagger
+            SwaggerConfig.Swagger_ConfigureServices(services);
 
             // Add services from "*.ServiceRegistration.cs" files
             services.AddApplicationServices();
             services.AddInfrastructureServices(Configuration);
             services.AddIdentityServices(Configuration);
-            //services.AddDapperPersistenceServices();
+            services.AddDapperPersistenceServices();
 
             // Can be used for "Domain project" AuditableEntity class (for CreatedBy or LastModifiedBy properties)
             services.AddScoped<ILoggedInUserService, LoggedInUserService>();
 
             services.AddControllers();
+
+            // API Versioning
+            services.AddApiVersioning(config =>
+            {
+                config.DefaultApiVersion = new ApiVersion(SwaggerConfig.ActiveApiVersion.major, SwaggerConfig.ActiveApiVersion.minor);    // the default API Version
+                config.AssumeDefaultVersionWhenUnspecified = true;  // to use the default API version number if no version has been specified
+                config.ReportApiVersions = true;
+            });
 
             services.AddCors(options =>
             {
@@ -72,11 +75,7 @@ namespace Api
             app.UseSerilogRequestLogging();
 
             // Swagger
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint($"/swagger/{SwaggerVersion}/swagger.json", SwaggerTitle);
-            });
+            SwaggerConfig.Swagger_Configure(app);
 
             // For Error handling (call method in "/Middleware")
             app.UseCustomExceptionHandler();
@@ -87,49 +86,6 @@ namespace Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-            });
-        }
-
-        private void AddSwagger(IServiceCollection services)
-        {
-            //services.AddSwaggerDocument(configure => configure.Title = SwaggerTitle);
-
-            services.AddSwaggerGen(c =>
-            {
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Description = @"JWT Authorization header using the Bearer scheme. 
-                      Enter 'Bearer' [space] and then your token in the text input below.
-                      Example: 'Bearer 12345abcdef'",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
-                });
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                {{
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        },
-                        Scheme = "oauth2",
-                        Name = "Bearer",
-                        In = ParameterLocation.Header
-                    },
-                    new List<string>()
-                }});
-
-                c.SwaggerDoc(SwaggerVersion, new OpenApiInfo
-                {
-                    Version = SwaggerVersion,
-                    Title = SwaggerTitle,
-                });
-
-                c.OperationFilter<FileResultContentTypeOperationFilter>();
             });
         }
     }
