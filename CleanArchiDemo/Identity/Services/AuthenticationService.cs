@@ -35,14 +35,14 @@ namespace Identity.Services
 
             if (user == null)
             {
-                throw new Exception($"User with {request.Email} not found.");
+                throw new Exception($"User with email '{request.Email}' not found.");
             }
 
             var result = await _signInManager.PasswordSignInAsync(user.UserName, request.Password, false, lockoutOnFailure: false);
 
             if (!result.Succeeded)
             {
-                throw new Exception($"Credentials for '{request.Email} aren't valid'.");
+                throw new Exception($"Credentials for '{request.Email}' aren't valid'.");
             }
 
             JwtSecurityToken jwtSecurityToken = await GenerateToken(user);
@@ -88,7 +88,8 @@ namespace Identity.Services
                 }
                 else
                 {
-                    throw new Exception($"{result.Errors}");
+                    throw new Exception($"{String.Join("|| Error :", result.Errors.Select(e => e.Description))}");
+                    //throw new Exception($"{result.Errors}");
                 }
             }
             else

@@ -29,34 +29,13 @@ namespace Api
                     .AddJsonFile("appsettings.json")
                     .Build();
 
-                // Serilog - Read config from appsettings
-                Log.Logger = new LoggerConfiguration()
-                    .ReadFrom.Configuration(config)
-                    .Enrich.FromLogContext()        // provides the capability to add and remove properties from the execution context
-                    .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day)    // create 1 file per day
-                    .CreateLogger();
-                    //.CreateBootstrapLogger();
+                // Serilog
+                Initialize_Serilog(config);
 
                 var host = CreateHostBuilder(args).Build();
 
                 // Identity
-                using (var scope = host.Services.CreateScope())
-                {
-                    var services = scope.ServiceProvider;
-                    var loggerFactory = services.GetRequiredService<ILoggerFactory>();
-
-                    try
-                    {
-                        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-
-                        //await Identity.Seed.UserCreator.SeedAsync(userManager);
-                        Log.Information("Identity is ON");
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.Warning(ex, "An error occured while starting the application");
-                    }
-                }
+                Initialize_Identity(host);
 
                 host.Run();
             }
@@ -67,6 +46,38 @@ namespace Api
             finally
             {
                 Log.CloseAndFlush();
+            }
+        }
+
+        private static void Initialize_Serilog(IConfigurationRoot config)
+        {
+            // Serilog - Read config from appsettings
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(config)
+                .Enrich.FromLogContext()        // provides the capability to add and remove properties from the execution context
+                .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day)    // create 1 file per day
+                .CreateLogger();
+            //.CreateBootstrapLogger();
+        }
+
+        private async static Task Initialize_Identity(IHost host)
+        {
+            using (var scope = host.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+
+                try
+                {
+                    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                    
+                    await Identity.Seed.UserCreator.SeedAsync(userManager);
+                    Log.Information("Identity is ON");
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning(ex, "An error occured while starting the application");
+                }
             }
         }
 
