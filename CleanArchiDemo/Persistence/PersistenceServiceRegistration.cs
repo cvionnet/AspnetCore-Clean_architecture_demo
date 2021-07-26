@@ -9,7 +9,7 @@ namespace PersistenceDapper
         public static IServiceCollection AddDapperPersistenceServices(this IServiceCollection services)
         {
 //            services.AddScoped(typeof(IAsyncRepository<>), typeof(BaseRepository<>));
-            
+
             services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

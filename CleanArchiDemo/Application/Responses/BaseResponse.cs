@@ -24,8 +24,8 @@ namespace Application.Responses
             Message = message;
         }
 
-        //Ok = 200, BadRequest = 400, NotFound = 404
-        public enum StatusCode { Ok, BadRequest, NotFound };
+        // NotFound = 404, Ok = 200, BadRequest = 400
+        public enum StatusCode { NotFound, Ok, BadRequest };
 
         public StatusCode Success { get; set; }
         public string Message { get; set; }

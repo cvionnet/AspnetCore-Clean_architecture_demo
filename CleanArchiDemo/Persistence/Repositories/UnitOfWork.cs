@@ -1,4 +1,5 @@
-﻿using Application.Contracts.Persistence;
+﻿using Application.Contracts.Identity;
+using Application.Contracts.Persistence;
 
 namespace PersistenceDapper.Repositories
 {
