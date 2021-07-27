@@ -20,6 +20,7 @@ namespace Api
             // Serilog - log errors during start-up (then, config is replaced by the one in CreateHostBuilder() )
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.Console()
+                .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day)    // create 1 file per day
                 .CreateBootstrapLogger();
             Log.Information("Starting up!");
 

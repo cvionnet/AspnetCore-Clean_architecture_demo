@@ -23,7 +23,9 @@ namespace Application.UnitTests.Mocks
         // Task<T> GetByIdAsync(int id);
         public MockCompanyRepository MockGetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            Setup(p => p.Companies.GetByIdAsync(id).Result)
+                .Returns(MockFakeData.FakeCompanies.FirstOrDefault(c => c.CompanyID == id));
+
             return this;
         }
 
@@ -58,7 +60,21 @@ namespace Application.UnitTests.Mocks
         // Task<int> DeleteAsync(T entity);    // return the number of lines deleted
         public MockCompanyRepository MockDeleteAsync(Company entity)
         {
-            throw new NotImplementedException();
+            var temp = Setup(p => p.Companies.ListAllAsync().Result)
+                .Returns(MockFakeData.FakeCompanies);
+
+            // If suppression in faked data successed, return 1 (fake an int)
+            Setup(p => p.Companies.DeleteAsync(It.IsAny<Company>()).Result)
+                .Returns(MockFakeData.FakeCompanies.Remove(entity) ? 1 : 0);
+
+
+            // If suppression in faked data successed, return 1 (fake an int)
+            //Setup(p => p.Companies.DeleteAsync(entity).Result)
+            //    .Returns(MockFakeData.FakeCompanies.Remove(entity) ? 1 : 0);
+
+
+
+
             return this;
         }
 

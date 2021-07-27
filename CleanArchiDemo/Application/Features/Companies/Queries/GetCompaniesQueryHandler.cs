@@ -31,7 +31,7 @@ namespace Application.Features.Companies
 
             try
             {
-                using (Operation.Time($"[{GetType().Name}] Get All Companies - Time operation", GetType().Name))
+                using (Operation.Time($"[{GetType().Name}] Timing - Get All Companies"))
                 {
                     // Get the list of all companies (from Infrastructure layer)
                     var allCompanies = await _unitOfWork.Companies.ListAllAsync();
@@ -39,26 +39,27 @@ namespace Application.Features.Companies
                     // Create a standard response (send back by the Controller in Api layer)
                     if (allCompanies is null)
                     {
+                        //throw new NotFoundException(nameof(Companies), null);
                         response.Success = Responses.BaseResponse.StatusCode.NotFound;
                         response.Message = "No company found";
-                        _logger.LogInformation($"{System.Reflection.MethodBase.GetCurrentMethod().Name} - {response.Message}");
+                        _logger.LogInformation($"{response.Message}");
                     }
                     else
                     {
                         response.Success = Responses.BaseResponse.StatusCode.Ok;
                         response.Company = _mapper.Map<IReadOnlyList<CompanyVM>>(allCompanies);
+                        _logger.LogInformation($"Return list of all companies", response);
                     }
                 }
-
-                _logger.LogInformation($"{GetType().Name} - Return list of all companies", response);
 
                 return response;
             }
             catch (Exception ex)
             {
+                //throw new BadRequestException("Can't execute query on companies");
                 response.Success = Responses.BaseResponse.StatusCode.BadRequest;
                 response.Message = "Can't execute query on companies";
-                _logger.LogError(ex, $"{System.Reflection.MethodBase.GetCurrentMethod().Name} - {response.Message}");
+                _logger.LogError(ex, $"{response.Message}");
 
                 return response;
             }

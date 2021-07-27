@@ -1,6 +1,7 @@
 ﻿using Application.Features._ViewModels;
 using Domain.Entities;
 using AutoMapper;
+using Application.Features._DTOs;
 
 namespace Application.Profiles
 {
@@ -10,6 +11,7 @@ namespace Application.Profiles
         {
             // Company
             CreateMap<Company, CompanyVM>();
+            CreateMap<AddCompanyDTO, Company>();
 
             // Company - Set the dest field (CompanyVM.CountryName) to take the value in Company.Country.CountryName)
             CreateMap<Company, CompanyVM>().ForMember(dest => dest.CountryName,

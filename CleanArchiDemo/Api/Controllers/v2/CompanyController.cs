@@ -27,7 +27,7 @@ namespace Api.Controllers.v2
         {
             try
             {
-                GetCompaniesQuery query = new GetCompaniesQuery();
+                var query = new GetCompaniesQuery();
                 var response = await Mediator.Send(query);
 
                 if (response.Success == Application.Responses.BaseResponse.StatusCode.BadRequest)
@@ -53,7 +53,7 @@ namespace Api.Controllers.v2
         {
             try
             {
-                GetCompanyByIdQuery query = new GetCompanyByIdQuery() { CompanyId = id };
+                var query = new GetCompanyByIdQuery() { CompanyId = id };
                 var response = await Mediator.Send(query);
 
                 if (response.Success == Application.Responses.BaseResponse.StatusCode.BadRequest)
@@ -66,6 +66,57 @@ namespace Api.Controllers.v2
             catch (Exception ex)
             {
                 Logger.LogCritical(ex, $"Something went wrong inside GetCompanyById action: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [Authorize]
+        [HttpPost(Name = "AddCompany")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<AddCompanyCommandResponse>> AddCompany([FromBody] AddCompanyCommand command)
+        {
+            try
+            {
+                var response = await Mediator.Send(command);
+
+                if (response.Success == Application.Responses.BaseResponse.StatusCode.BadRequest)
+                    return BadRequest(response.Message);
+                if (response.Success == Application.Responses.BaseResponse.StatusCode.NotFound)
+                    return NotFound(response.Message);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogCritical(ex, $"Something went wrong inside DeleteCompany action: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [Authorize]
+        [HttpDelete("{id}", Name = "DeleteCompany")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<DeleteCompanyCommandResponse>> DeleteCompany(int id)
+        {
+            try
+            {
+                var command = new DeleteCompanyCommand() { CompanyId = id };
+                var response = await Mediator.Send(command);
+
+                if (response.Success == Application.Responses.BaseResponse.StatusCode.BadRequest)
+                    return BadRequest(response.Message);
+                if (response.Success == Application.Responses.BaseResponse.StatusCode.NotFound)
+                    return NotFound(response.Message);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogCritical(ex, $"Something went wrong inside DeleteCompany action: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }

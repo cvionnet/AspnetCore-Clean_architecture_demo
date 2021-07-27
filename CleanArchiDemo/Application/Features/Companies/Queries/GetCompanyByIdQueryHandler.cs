@@ -31,7 +31,7 @@ namespace Application.Features.Companies
 
             try
             {
-                using (Operation.Time($"[{GetType().Name}] Get Company {request.CompanyId} - Time operation", GetType().Name))
+                using (Operation.Time($"[{GetType().Name}] Timing - Get Company {request.CompanyId}"))
                 {
                     // Get a specific company (from Infrastructure layer)
                     var company = await _unitOfWork.Companies.GetByIdAsync(request.CompanyId);
@@ -39,26 +39,27 @@ namespace Application.Features.Companies
                     // Create a standard response (send back by the Controller in Api layer)
                     if (company is null)
                     {
+                        //throw new NotFoundException(nameof(Companies), request.CompanyId);
                         response.Success = Responses.BaseResponse.StatusCode.NotFound;
                         response.Message = "No company found";
-                        _logger.LogInformation($"{System.Reflection.MethodBase.GetCurrentMethod().Name} - {response.Message}");
+                        _logger.LogInformation($"{response.Message}");
                     }
                     else
                     {
                         response.Success = Responses.BaseResponse.StatusCode.Ok;
                         response.Company = _mapper.Map<CompanyVM>(company);
+                        _logger.LogInformation($"Return company {request.CompanyId}", response);
                     }
                 }
-
-                _logger.LogInformation($"{GetType().Name} - Return company {request.CompanyId}", response);
 
                 return response;
             }
             catch (Exception ex)
             {
+                //throw new BadRequestException($"Can't execute query on company {request.CompanyId}");
                 response.Success = Responses.BaseResponse.StatusCode.BadRequest;
                 response.Message = $"Can't execute query on company {request.CompanyId}";
-                _logger.LogError(ex, $"{System.Reflection.MethodBase.GetCurrentMethod().Name} - {response.Message}");
+                _logger.LogError(ex, $"{response.Message}");
 
                 return response;
             }
