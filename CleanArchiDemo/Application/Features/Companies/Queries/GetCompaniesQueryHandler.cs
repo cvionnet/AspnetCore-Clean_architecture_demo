@@ -31,7 +31,7 @@ namespace Application.Features.Companies
 
             try
             {
-                using (Operation.Time($"[{GetType().Name}] Timing - Get All Companies"))
+                using (Operation.Time($"[{GetType().Name}][TIMING]Get All Companies"))
                 {
                     // Get the list of all companies (from Infrastructure layer)
                     var allCompanies = await _unitOfWork.Companies.ListAllAsync();
@@ -58,8 +58,8 @@ namespace Application.Features.Companies
             {
                 //throw new BadRequestException("Can't execute query on companies");
                 response.Success = Responses.BaseResponse.StatusCode.BadRequest;
-                response.Message = "Can't execute query on companies";
-                _logger.LogError(ex, $"{response.Message}");
+                response.Message = "Can't execute query";
+                _logger.LogError(ex, $"{response.Message} on companies");
 
                 return response;
             }

@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Api.Controllers.v2
@@ -94,6 +92,32 @@ namespace Api.Controllers.v2
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        [Authorize]
+        [HttpPut(Name = "UpdateCompany")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<UpdateCompanyCommandResponse>> UpdateCompany([FromBody] UpdateCompanyCommand command)
+        {
+            try
+            {
+                var response = await Mediator.Send(command);
+
+                if (response.Success == Application.Responses.BaseResponse.StatusCode.BadRequest)
+                    return BadRequest(response.Message);
+                if (response.Success == Application.Responses.BaseResponse.StatusCode.NotFound)
+                    return NotFound(response.Message);
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogCritical(ex, $"Something went wrong inside UpdateCompany action: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
 
         [Authorize]
         [HttpDelete("{id}", Name = "DeleteCompany")]

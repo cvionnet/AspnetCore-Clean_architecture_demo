@@ -31,7 +31,7 @@ namespace Application.Features.Companies
 
             try
             {
-                using (Operation.Time($"[{GetType().Name}] Timing - Get Company {request.CompanyId}"))
+                using (Operation.Time($"[{GetType().Name}][TIMING]Get Company {request.CompanyId}"))
                 {
                     // Get a specific company (from Infrastructure layer)
                     var company = await _unitOfWork.Companies.GetByIdAsync(request.CompanyId);
@@ -42,7 +42,7 @@ namespace Application.Features.Companies
                         //throw new NotFoundException(nameof(Companies), request.CompanyId);
                         response.Success = Responses.BaseResponse.StatusCode.NotFound;
                         response.Message = "No company found";
-                        _logger.LogInformation($"{response.Message}");
+                        _logger.LogInformation($"{response.Message} (company id:{request.CompanyId})");
                     }
                     else
                     {
@@ -58,8 +58,8 @@ namespace Application.Features.Companies
             {
                 //throw new BadRequestException($"Can't execute query on company {request.CompanyId}");
                 response.Success = Responses.BaseResponse.StatusCode.BadRequest;
-                response.Message = $"Can't execute query on company {request.CompanyId}";
-                _logger.LogError(ex, $"{response.Message}");
+                response.Message = $"Can't execute query";
+                _logger.LogError(ex, $"{response.Message} (company id:{request.CompanyId}");
 
                 return response;
             }

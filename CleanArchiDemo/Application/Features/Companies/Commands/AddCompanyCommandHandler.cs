@@ -32,17 +32,16 @@ namespace Application.Features.Companies
 
             try
             {
-                using (Operation.Time($"[{GetType().Name}] Timing - Add new Company (name:{request.NewCompany.Name})"))
+                using (Operation.Time($"[{GetType().Name}][TIMING]Add new Company (name:{request.NewCompany.Name})"))
                 {
-                    // Call the Validator + Throw a Custom Exceptions if there is any error
+                    // Call the Validator
                     var validator = new AddCompanyValidator(_unitOfWork.Companies);
                     var validationResult = await validator.ValidateAsync(request);
                     if (validationResult.Errors.Count > 0)
                     {
                         //throw new ValidationException(validationResult);
                         response.Success = Responses.BaseResponse.StatusCode.BadRequest;
-var temp = String.Join(" || ", (new ValidationException(validationResult)).ValidationErrors);
-                        response.Message = $"Validation errors - {String.Join(" || ", (new ValidationException(validationResult)).ValidationErrors)}";
+                        response.Message = $"Validation errors ({validationResult.Errors.Count}):\n{String.Join("\n", (new ValidationException(validationResult)).ValidationErrors)}";
                         _logger.LogInformation($"{response.Message}");
                     }
                     else
@@ -68,8 +67,8 @@ var temp = String.Join(" || ", (new ValidationException(validationResult)).Valid
             {
                 //throw new BadRequestException($"Can't delete company {request.CompanyId}");
                 response.Success = Responses.BaseResponse.StatusCode.BadRequest;
-                response.Message = $"Can't add the new company (name:{request.NewCompany.Name})";
-                _logger.LogError(ex, $"{response.Message}");
+                response.Message = $"Can't add the new company";
+                _logger.LogError(ex, $"{response.Message} (name:{request.NewCompany.Name})");
 
                 return response;
             }

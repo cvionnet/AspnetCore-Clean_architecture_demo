@@ -12,6 +12,7 @@ namespace Application.Profiles
             // Company
             CreateMap<Company, CompanyVM>();
             CreateMap<AddCompanyDTO, Company>();
+            CreateMap<UpdateCompanyDTO, Company>();
 
             // Company - Set the dest field (CompanyVM.CountryName) to take the value in Company.Country.CountryName)
             CreateMap<Company, CompanyVM>().ForMember(dest => dest.CountryName,

@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace Application.Features._DTOs
+﻿namespace Application.Features._DTOs
 {
     /// <summary>
     /// Entity used to add a new company
     /// </summary>
-    public class AddCompanyDTO
+    public record AddCompanyDTO
     {
         public string Name { get; set; }
         public string Email { get; set; }

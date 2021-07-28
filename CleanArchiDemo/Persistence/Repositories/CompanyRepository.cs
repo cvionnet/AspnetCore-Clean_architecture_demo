@@ -33,7 +33,7 @@ namespace PersistenceDapper.Repositories
 
             var CompanyDict = new Dictionary<int, Company>();
 
-            using (Operation.Time($"[{GetType().Name}] Timing (DB) - Get all companies"))
+            using (Operation.Time($"[{GetType().Name}][TIMING_DB]Get all companies"))
             {
                 using (var connection = new SqlConnection(_connectionString))
                 {
@@ -54,7 +54,7 @@ namespace PersistenceDapper.Repositories
                         },
                         splitOn: "CountryId");
 
-                    _logger.LogInformation($"USER:{_loggedInUserService.UserId} - Get all companies from database");
+                    _logger.LogInformation($"[USER:{_loggedInUserService.UserId}]Get all companies from DB");
                     return result.ToList();
                 }
             }
@@ -68,7 +68,7 @@ namespace PersistenceDapper.Repositories
 
             var CompanyDict = new Dictionary<int, Company>();
 
-            using (Operation.Time($"[{GetType().Name}] Timing (DB) - Get company {id}"))
+            using (Operation.Time($"[{GetType().Name}][TIMING_DB]Get company {id}"))
             {
                 using (var connection = new SqlConnection(_connectionString))
                 {
@@ -90,7 +90,7 @@ namespace PersistenceDapper.Repositories
                         param: new { Idcompany = id },
                         splitOn: "CountryId");
 
-                    _logger.LogInformation($"USER:{_loggedInUserService.UserId} - Get company {id} from database");
+                    _logger.LogInformation($"[USER:{_loggedInUserService.UserId}]Get company {id} from DB");
                     return result.FirstOrDefault();
                 }
             }
@@ -101,7 +101,7 @@ namespace PersistenceDapper.Repositories
             var sql = @"INSERT INTO Company (Name, Email, BillingAddress, Postcode, City, CountryID, CreatedBy, CreatedDate)
                                 VALUES(@Name, @Email, @BillingAddress, @Postcode, @City, @CountryID, @CreatedBy, @CreatedDate);";
 
-            using (Operation.Time($"[{GetType().Name}] Timing (DB) - Add new company (name:{entity.Name})"))
+            using (Operation.Time($"[{GetType().Name}][TIMING_DB]Add new company (name:{entity.Name})"))
             {
                 using (var connection = new SqlConnection(_connectionString))
                 {
@@ -135,24 +135,41 @@ namespace PersistenceDapper.Repositories
                         CreatedDate = DateTime.Now
                     });
 
+                    _logger.LogInformation($"[USER:{_loggedInUserService.UserId}]Add company in DB (id:{entity.CompanyID}, name:{entity.Name})");
                     return await GetByIdAsync(lastId.Single());
                 }
             }
         }
 
-        public async Task<int> UpdateAsync(Company entity)
+        public async Task<Company> UpdateAsync(Company entity)
         {
-            var sql = @"UPDATE Users SET Email = @Email, Login = @Login, Name = @Name, FirstName = @FirstName 
-                                WHERE UserId = @UserId;";
-
-            //TODO : prendre en compte les champs d'audit (AuditableEntity)
-            // CreatedDate = DateTime.Now  /  CreatedBy = _loggedInUserService .UserId          LastModifiedDate = DateTime.Now;  /  LastModifiedBy = _loggedInUserService.UserId;
+            var sql = @"UPDATE Company SET Name = @Name, Email = @Email, BillingAddress = @BillingAddress, Postcode = @Postcode,
+                                City = @City, CountryID = @CountryID, LastModifiedBy = @LastModifiedBy, LastModifiedDate = @LastModifiedDate
+                                WHERE CompanyID = @CompanyID;";
 
             using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
-                var affectedRows = await connection.ExecuteAsync(sql, entity);
-                return affectedRows;
+
+                // case 1 : if the entity does not have nested object, you can use 'entity' as parameter  (⚠️ LastModifiedBy and LastModifiedDate have no values)
+                //var affectedRows = await connection.ExecuteAsync(sql, entity);
+
+                // case 2 : if the entity have nested object, you must specify each parameter in the query
+                await connection.ExecuteAsync(sql, new
+                {
+                    CompanyID = entity.CompanyID,
+                    Name = entity.Name,
+                    Email = entity.Email,
+                    BillingAddress = entity.BillingAddress,
+                    Postcode = entity.Postcode,
+                    City = entity.City,
+                    CountryID = entity.Country.CountryID,       // nested object
+                    LastModifiedBy = _loggedInUserService.UserId,
+                    LastModifiedDate = DateTime.Now
+                });
+
+                _logger.LogInformation($"[USER:{_loggedInUserService.UserId}]Update company from DB (id:{entity.CompanyID})");
+                return await GetByIdAsync(entity.CompanyID);
             }
         }
 
@@ -160,14 +177,14 @@ namespace PersistenceDapper.Repositories
         {
             var sql = "DELETE FROM Company WHERE CompanyId = @Id;";
 
-            using (Operation.Time($"[{GetType().Name}] Timing (DB) - Delete company {entity.CompanyID}"))
+            using (Operation.Time($"[{GetType().Name}][TIMING_DB]Delete company {entity.CompanyID}"))
             {
                 using (var connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
                     var affectedRows = await connection.ExecuteAsync(sql, new { Id = entity.CompanyID });
 
-                    _logger.LogInformation($"USER:{_loggedInUserService.UserId} - Delete company from database (id:{entity.CompanyID}, name:{entity.Name}, mail:{entity.Email}");
+                    _logger.LogInformation($"[USER:{_loggedInUserService.UserId}]Delete company from DB (id:{entity.CompanyID}, name:{entity.Name}, mail:{entity.Email})");
                     return affectedRows;
                 }
             }
@@ -182,20 +199,40 @@ namespace PersistenceDapper.Repositories
         {
             var sql = "SELECT COUNT(Name) FROM Company WHERE Name = @Name;";
 
-            using (Operation.Time($"[{GetType().Name}] Timing (DB) - Check company name:{name}"))
+            using (Operation.Time($"[{GetType().Name}][TIMING_DB]Check company name:{name}"))
             {
                 using (var connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
                     var result = await connection.QueryAsync<int>(sql, new { Name = name });
 
-                    _logger.LogInformation($"USER:{_loggedInUserService.UserId} - Check for name uniqueness (name:{name})");
+                    _logger.LogInformation($"[USER:{_loggedInUserService.UserId}]Check for name uniqueness (name:{name})");
                     return !result.Any(x => x >= 1);
                 }
             }
         }
 
+        /// <summary>
+        /// Check if the country ID exists in the database
+        /// </summary>
+        /// <param name="id">The id to search</param>
+        /// <returns>True if the value is present</returns>
+        public async Task<bool> isCountryIdExists(int id)
+        {
+            var sql = "SELECT COUNT(CountryID) FROM Country WHERE CountryID = @Id;";
 
+            using (Operation.Time($"[{GetType().Name}][TIMING_DB]Check country ID presence:{id}"))
+            {
+                using (var connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    var result = await connection.QueryAsync<int>(sql, new { Id = id });
+
+                    _logger.LogInformation($"[USER:{_loggedInUserService.UserId}]Check for country ID presence (id:{id})");
+                    return !result.Any(x => x >= 1);
+                }
+            }
+        }
 
         public Task<bool> ResetDBToDemo()
         {

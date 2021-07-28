@@ -7,6 +7,7 @@ namespace Application.Contracts.Persistence
     {
         // Used for Validator
         Task<bool> isNameUnique(string name);
+        Task<bool> isCountryIdExists(int id);
 
         // Force a reset of the database (demonstration version)
         Task<bool> ResetDBToDemo();

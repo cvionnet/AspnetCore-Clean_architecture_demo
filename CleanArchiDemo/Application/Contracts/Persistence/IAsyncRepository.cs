@@ -13,7 +13,7 @@ namespace Application.Contracts.Persistence
         //Task<IEnumerable<T>> ListAllAsync();
         Task<IReadOnlyList<T>> ListAllAsync();
         Task<T> AddAsync(T entity);
-        Task<int> UpdateAsync(T entity);    // return the number of lines updated
+        Task<T> UpdateAsync(T entity);
         Task<int> DeleteAsync(T entity);    // return the number of lines deleted
     }
 }

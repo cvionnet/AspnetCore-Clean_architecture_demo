@@ -28,7 +28,7 @@ namespace Application.Features.Companies
 
             try
             {
-                using (Operation.Time($"[{GetType().Name}] Timing - Delete Company {request.CompanyId}"))
+                using (Operation.Time($"[{GetType().Name}][TIMING]Delete Company {request.CompanyId}"))
                 {
                     // Check if the element exists
                     var toDelete = await _unitOfWork.Companies.GetByIdAsync(request.CompanyId);
