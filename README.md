@@ -35,7 +35,7 @@ A "401 Not authorized" responsed is returned if not authorized.
 
 <br/>
 
-## Packages used (ajouter les liens) :
+## Packages used :
 - [Swagger](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)
 - [MediatR](https://github.com/jbogard/MediatR) (Mediator pattern)
 - [Automapper](https://github.com/AutoMapper/AutoMapper)
@@ -60,4 +60,4 @@ A "401 Not authorized" responsed is returned if not authorized.
 - launch the project
 - navigate to : https://localhost:5001/swagger/index.html
 
-ℹ️ : *database scripts are not include*
+ℹ️ : *database scripts are not included*
