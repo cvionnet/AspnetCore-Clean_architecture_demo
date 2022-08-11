@@ -1,8 +1,7 @@
-﻿namespace Domain.Entities
+﻿namespace Domain.Entities;
+
+public class Country
 {
-    public class Country
-    {
-        public int CountryID { get; set; }
-        public string CountryName { get; set; }
-    }
+    public int CountryID { get; set; }
+    public string CountryName { get; set; }
 }

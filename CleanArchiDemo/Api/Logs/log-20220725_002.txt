@@ -1,0 +1,25 @@
+2022-07-25 10:52:55.692 +10:00 [INF] Now listening on: https://localhost:5001
+2022-07-25 10:52:55.708 +10:00 [INF] Now listening on: http://localhost:5000
+2022-07-25 10:52:55.712 +10:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-07-25 10:52:55.714 +10:00 [INF] Hosting environment: Development
+2022-07-25 10:52:55.715 +10:00 [INF] Content root path: C:\Mega\MEGAsync\Dev\Projects\DotNet\ASPNet\AspnetCore-Clean_architecture_demo\CleanArchiDemo\Api
+2022-07-25 10:52:55.787 +10:00 [INF] Identity is ON
+2022-07-25 10:53:00.787 +10:00 [INF] HTTP GET / responded 404 in 19.7902 ms
+2022-07-25 10:53:11.836 +10:00 [INF] HTTP GET /swagger/index.html responded 200 in 185.9217 ms
+2022-07-25 10:53:12.190 +10:00 [INF] HTTP GET /swagger/v2.0/swagger.json responded 200 in 137.1353 ms
+2022-07-25 10:53:17.840 +10:00 [INF] HTTP GET /swagger/v2.0/swagger.json responded 200 in 5.1714 ms
+2022-07-25 10:53:17.983 +10:00 [INF] HTTP GET /favicon.ico responded 404 in 0.1786 ms
+2022-07-25 10:53:42.457 +10:00 [INF] New Authentication (login:demo@test.com)
+2022-07-25 10:53:42.857 +10:00 [INF] HTTP POST /api/Account/authenticate responded 200 in 455.1670 ms
+2022-07-25 10:54:01.274 +10:00 [INF] HTTP GET /api/v2.0/Company/all responded 401 in 65.1240 ms
+2022-07-25 10:54:15.323 +10:00 [INF] HTTP GET /swagger/v1.0/swagger.json responded 200 in 9.6133 ms
+2022-07-25 10:54:16.929 +10:00 [INF] HTTP GET /swagger/v2.0/swagger.json responded 200 in 6.5066 ms
+2022-07-25 10:54:22.031 +10:00 [INF] HTTP GET /api/v2.0/Company/all responded 401 in 0.7214 ms
+2022-07-25 10:54:31.606 +10:00 [INF] HTTP GET /api/v2.0/Company/1 responded 401 in 0.6011 ms
+2022-07-25 10:54:33.687 +10:00 [INF] HTTP GET /api/v2.0/Company/1 responded 401 in 0.1933 ms
+2022-07-25 10:54:56.151 +10:00 [INF] HTTP GET /swagger/v1.0/swagger.json responded 200 in 12.8817 ms
+2022-07-25 10:55:00.004 +10:00 [INF] [USER:]Get all companies from DB
+2022-07-25 10:55:00.016 +10:00 [INF] [CompanyRepository][TIMING_DB]Get all companies completed in 252.3 ms
+2022-07-25 10:55:00.053 +10:00 [INF] Return list of all companies
+2022-07-25 10:55:00.055 +10:00 [INF] [GetCompaniesQueryHandler][TIMING]Get All Companies completed in 307.6 ms
+2022-07-25 10:55:00.073 +10:00 [INF] HTTP GET /api/v1.0/Company/all responded 200 in 460.7182 ms

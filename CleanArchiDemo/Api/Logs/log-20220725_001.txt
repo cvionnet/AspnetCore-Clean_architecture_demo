@@ -1,0 +1,18 @@
+2022-07-25 10:36:30.770 +10:00 [INF] Identity is ON
+2022-07-25 10:36:30.813 +10:00 [INF] Now listening on: https://localhost:5001
+2022-07-25 10:36:30.819 +10:00 [INF] Now listening on: http://localhost:5000
+2022-07-25 10:36:30.821 +10:00 [INF] Application started. Press Ctrl+C to shut down.
+2022-07-25 10:36:30.822 +10:00 [INF] Hosting environment: Development
+2022-07-25 10:36:30.823 +10:00 [INF] Content root path: C:\Mega\MEGAsync\Dev\Projects\DotNet\ASPNet\AspnetCore-Clean_architecture_demo\CleanArchiDemo\Api
+2022-07-25 10:36:31.460 +10:00 [INF] HTTP GET / responded 404 in 17.2559 ms
+2022-07-25 10:36:38.823 +10:00 [INF] HTTP GET /swagger responded 301 in 0.7996 ms
+2022-07-25 10:36:38.983 +10:00 [INF] HTTP GET /swagger/index.html responded 200 in 140.1344 ms
+2022-07-25 10:36:39.019 +10:00 [INF] HTTP GET /swagger/swagger-ui.css responded 200 in 10.6849 ms
+2022-07-25 10:36:39.028 +10:00 [INF] HTTP GET /swagger/swagger-ui-standalone-preset.js responded 200 in 19.1065 ms
+2022-07-25 10:36:39.036 +10:00 [INF] HTTP GET /swagger/swagger-ui-bundle.js responded 200 in 27.8734 ms
+2022-07-25 10:36:39.254 +10:00 [INF] HTTP GET /swagger/favicon-32x32.png responded 200 in 0.3464 ms
+2022-07-25 10:36:39.323 +10:00 [INF] HTTP GET /swagger/v1.0/swagger.json responded 200 in 99.0035 ms
+2022-07-25 10:36:53.673 +10:00 [INF] HTTP POST /api/Account/authenticate responded 400 in 51.4600 ms
+2022-07-25 10:39:55.568 +10:00 [INF] HTTP GET /swagger/v2.0/swagger.json responded 200 in 8.2675 ms
+2022-07-25 10:40:06.362 +10:00 [INF] HTTP POST /api/Account/authenticate responded 400 in 2.6113 ms
+2022-07-25 10:52:52.523 +10:00 [INF] Starting up!

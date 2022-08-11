@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
-namespace Api.Middleware
+namespace Api.Middleware;
+
+public static class MiddlewareExtensions
 {
-    public static class MiddlewareExtensions
+    // Called in the startup.cs  ( Configure() )
+    public static IApplicationBuilder UseCustomExceptionHandler(this IApplicationBuilder builder)
     {
-        // Called in the startup.cs  ( Configure() )
-        public static IApplicationBuilder UseCustomExceptionHandler(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<ExceptionHandlerMiddleware>();
-        }
+        return builder.UseMiddleware<ExceptionHandlerMiddleware>();
     }
 }

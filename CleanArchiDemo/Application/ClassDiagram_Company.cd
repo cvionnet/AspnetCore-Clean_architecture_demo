@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Comment CommentText="QUERY">
+    <Position X="0.529" Y="5.161" Height="0.323" Width="1.7" />
+  </Comment>
+  <Comment CommentText="COMMAND">
+    <Position X="9.32" Y="5.19" Height="0.323" Width="1.7" />
+  </Comment>
+  <Class Name="Application.Features.Companies.GetCompaniesQuery">
+    <Position X="0.5" Y="9.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Features\Companies\Queries\GetCompaniesQuery.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Application.Features.Companies.GetCompaniesQueryHandler">
+    <Position X="0.5" Y="11" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgABAAAAIAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Features\Companies\Queries\GetCompaniesQueryHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Application.Features.Companies.GetCompaniesQueryResponse">
+    <Position X="0.5" Y="5.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Features\Companies\Queries\GetCompaniesQueryResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Responses.BaseResponse">
+    <Position X="5" Y="5.75" Width="3.5" />
+    <NestedTypes>
+      <Enum Name="Application.Responses.BaseResponse.StatusCode" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Responses\BaseResponse.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAEAAAAAIAAAAAA=</HashCode>
+      <FileName>Responses\BaseResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Features.Companies.AddCompanyCommand">
+    <Position X="9.25" Y="9.25" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Features\Companies\Commands\AddCompanyCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Application.Features.Companies.AddCompanyCommandHandler">
+    <Position X="9.25" Y="13.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgABAAAAIAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>Features\Companies\Commands\AddCompanyCommandHandler.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Application.Features.Companies.AddCompanyCommandResponse">
+    <Position X="9.25" Y="5.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Features\Companies\Commands\AddCompanyCommandResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Application.Features.Validators.AddCompanyValidator">
+    <Position X="9.25" Y="10.75" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAEAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Features\Companies\Validators\AddCompanyValidator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Application.Contracts.Persistence.IAsyncRepository&lt;T&gt;">
+    <Position X="0.5" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAEAAAAAAAgAAAAAAAAAIIA=</HashCode>
+      <FileName>Contracts\Persistence\IAsyncRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Application.Contracts.Persistence.ICompanyRepository">
+    <Position X="0.5" Y="2.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAQgAA=</HashCode>
+      <FileName>Contracts\Persistence\ICompanyRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Application.Contracts.Persistence.IUnitOfWork">
+    <Position X="4" Y="3.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\Persistence\IUnitOfWork.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

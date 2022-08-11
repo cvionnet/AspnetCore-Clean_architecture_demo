@@ -1,7 +1,7 @@
-# ASP.NET Core 5.0 - Clean Architecture demo API
+# ASP.NET Core 6.0 - Clean Architecture demo API
 
 
-A demo API showing an implementation of Clean Architecture with ASP.NET Core 5.0.
+A demo API showing an implementation of Clean Architecture with ASP.NET Core 6.0.
 
 This project allows basic CRUD operations on a SQL Server database using Dapper.
 
@@ -55,7 +55,7 @@ A "401 Not authorized" responsed is returned if not authorized.
 
 ## How to launch the application :
 - clone / download project
-- open with VS Studio 2019
+- open with VS Studio 2022
 - set API/Api project as "Startup project"
 - launch the project
 - navigate to : https://localhost:5001/swagger/index.html

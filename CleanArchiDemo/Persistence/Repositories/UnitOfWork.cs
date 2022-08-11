@@ -1,15 +1,11 @@
-﻿using Application.Contracts.Identity;
-using Application.Contracts.Persistence;
+﻿namespace PersistenceDapper.Repositories;
 
-namespace PersistenceDapper.Repositories
+public class UnitOfWork : IUnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork
-    {
-        public UnitOfWork(ICompanyRepository companyRepository)
-        {
-            Companies = companyRepository;
-        }
+    public ICompanyRepository Companies { get; }
 
-        public ICompanyRepository Companies { get; }
+    public UnitOfWork(ICompanyRepository companyRepository)
+    {
+        Companies = companyRepository;
     }
 }

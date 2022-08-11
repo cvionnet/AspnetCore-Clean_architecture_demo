@@ -1,13 +1,11 @@
-﻿using Application.Features._ViewModels;
-using Application.Responses;
+﻿using Application.Responses;
 
-namespace Application.Features.Companies
+namespace Application.Features.Companies;
+
+public class AddCompanyCommandResponse : BaseResponse
 {
-    public class AddCompanyCommandResponse : BaseResponse
-    {
-        public AddCompanyCommandResponse() : base()
-        { }
+    public AddCompanyCommandResponse() : base()
+    { }
 
-        public CompanyVM NewCompany { get; set; }
-    }
+    public CompanyVM NewCompany { get; set; }
 }

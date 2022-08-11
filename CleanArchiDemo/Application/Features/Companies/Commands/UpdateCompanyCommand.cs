@@ -1,10 +1,8 @@
-﻿using Application.Features._DTOs;
-using MediatR;
+﻿using MediatR;
 
-namespace Application.Features.Companies
+namespace Application.Features.Companies;
+
+public class UpdateCompanyCommand : IRequest<UpdateCompanyCommandResponse>
 {
-    public class UpdateCompanyCommand : IRequest<UpdateCompanyCommandResponse>
-    {
-        public UpdateCompanyDTO UpdateCompany { get; set; }
-    }
+    public UpdateCompanyDTO UpdateCompany { get; set; }
 }

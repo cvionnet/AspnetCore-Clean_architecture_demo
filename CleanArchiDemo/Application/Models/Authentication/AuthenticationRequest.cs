@@ -1,8 +1,7 @@
-﻿namespace Application.Models.Authentication
+﻿namespace Application.Models.Authentication;
+
+public class AuthenticationRequest
 {
-    public class AuthenticationRequest
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
+    public string Email { get; set; }
+    public string Password { get; set; }
 }

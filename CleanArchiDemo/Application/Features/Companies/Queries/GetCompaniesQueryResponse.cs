@@ -1,13 +1,11 @@
-﻿using Application.Features._ViewModels;
-using Application.Responses;
-using System.Collections.Generic;
+﻿using Application.Responses;
 
-namespace Application.Features.Companies
+namespace Application.Features.Companies;
+
+public class GetCompaniesQueryResponse : BaseResponse
 {
-    public class GetCompaniesQueryResponse : BaseResponse
-    {
-        public GetCompaniesQueryResponse() : base() { }
+    public GetCompaniesQueryResponse() : base()
+    { }
 
-        public IReadOnlyList<CompanyVM> Company { get; set; }
-    }
+    public IReadOnlyList<CompanyVM> Company { get; set; }
 }

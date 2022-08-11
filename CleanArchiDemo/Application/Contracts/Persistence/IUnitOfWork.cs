@@ -1,7 +1,6 @@
-﻿namespace Application.Contracts.Persistence
+﻿namespace Application.Contracts.Persistence;
+
+public interface IUnitOfWork
 {
-    public interface IUnitOfWork
-    {
-        ICompanyRepository Companies { get; }
-    }
+    ICompanyRepository Companies { get; }
 }
